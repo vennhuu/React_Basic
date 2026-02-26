@@ -8,15 +8,9 @@ import { useState } from 'react'
 const App = () => {
 
   const [todoList , setTodoList] = useState([
-    // {id: 1 , name: "Learn React"},
-    // {id: 2 , name: "Watch YTB"}
+
   ]) ;
-  // const venn = "Venn"
-  // const age = 25
-  // const address = {
-  //   address:"Hanoi" , 
-  //   country:"VietNam"
-  // }
+
 
   const addNewTodo = (name) => {
     const newTodo = {
@@ -25,6 +19,11 @@ const App = () => {
     }
 
     setTodoList([...todoList , newTodo])
+  }
+
+  const deleteToDo = (id) => {
+    const newToDo = todoList.filter(item => item.id !== id);
+    setTodoList(newToDo);
   }
 
   const randomId = (min ,max) => {
@@ -36,28 +35,16 @@ const App = () => {
       <TodoNew
          addNewTodo={addNewTodo}
       />
-
       {
         todoList.length > 0 ?
         <TodoData
           todoList={todoList}
+          deleteToDo={deleteToDo}
         /> : 
         <div className='todo-image'>
           <img src={reactLogo} className="logo" />
         </div>
       }
-      {/* {
-        todoList.length > 0 && 
-        <TodoData
-          todoList={todoList}
-        />
-      }
-      {
-        todoList.length === 0 && 
-        <div className='todo-image'>
-          <img src={reactLogo} className="logo" />
-        </div>
-      } */}
     </div>
   )
 }
