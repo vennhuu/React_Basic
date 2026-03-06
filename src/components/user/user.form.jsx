@@ -1,4 +1,4 @@
-import { Button, Input, notification } from "antd";
+import { Button, Input, Modal, notification } from "antd";
 import { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 import axios from "axios";
@@ -10,7 +10,9 @@ const UserForm = () => {
     const [phoneNumber , setPhoneNumber] = useState("") ;
     const [password , setPassword] = useState("") ;
 
-    const handleClickBtn = async () => {
+    const [isModalOpen , setIsModalOpen] = useState(false);
+
+    const handleSubmitBtn = async () => {
         const res = await createUserAPI(fullName, email, password, phoneNumber) ;
         // console.log("Đã lưu" , {fullName , email , phoneNumber , password});
         console.log("Check data: ",  res.data) ;
@@ -19,6 +21,7 @@ const UserForm = () => {
                 message:"Create a new user" ,
                 description: "Tạo user thành công"
             })
+            setIsModalOpen(false)
         }
         else {
             notification.error({
@@ -27,11 +30,24 @@ const UserForm = () => {
             })
         }
     }
+
     return (
         <div className="user-form" style={{margin: "20px 0"}}>
-            <div style={{ display: "flex", gap: "15px", flexDirection: "column"}}>
+            <div style={{ display: "flex", justifyContent: "space-between"}}>
+                <h3>Danh sách người dùng</h3>
+                <Button type="primary" onClick={() => setIsModalOpen(true)}>Thêm người dùng</Button>
+            </div>
+            <Modal
+                title="Tạo người dùng mới"
+                open={isModalOpen}
+                onOk={() => handleSubmitBtn()}
+                onCancel={() => setIsModalOpen(false)}
+                okText={"Tạo"}
+                cancelText={"Hủy"}
+            >
+                <div style={{ display: "flex", gap: "15px", flexDirection: "column"}}>
                 <div>
-                    <span>Full name</span>
+                    <span>Họ và tên</span>
                     <Input
                         value={fullName}
                         onChange={(event) => setFullName(event.target.value)}
@@ -45,23 +61,21 @@ const UserForm = () => {
                     />
                 </div>
                 <div>
-                    <span>Phone number</span>
+                    <span>Số điện thoại</span>
                     <Input
                         value={phoneNumber}
                         onChange={(event) => setPhoneNumber(event.target.value)}
                     />
                 </div>
                 <div>
-                    <span>Password</span>
+                    <span>Mật khẩu</span>
                     <Input.Password
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
-                <div>
-                    <Button type="primary" onClick={handleClickBtn}>Create a new user</Button>
-                </div>
             </div>
+            </Modal>
         </div>
     )
 }
