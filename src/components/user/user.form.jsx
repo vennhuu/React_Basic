@@ -3,8 +3,9 @@ import { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 import axios from "axios";
 
-const UserForm = () => {
+const UserForm = (props) => {
     
+    const {loadUser} = props;
     const [fullName , setFullName] = useState("") ;
     const [email , setEmail] = useState("") ;
     const [phoneNumber , setPhoneNumber] = useState("") ;
@@ -21,7 +22,8 @@ const UserForm = () => {
                 message:"Create a new user" ,
                 description: "Tạo user thành công"
             })
-            setIsModalOpen(false)
+            resetAndCloseModal()
+            await loadUser() ;
         }
         else {
             notification.error({
@@ -29,6 +31,13 @@ const UserForm = () => {
                 description: JSON.stringify(res.message)
             })
         }
+    }
+    const resetAndCloseModal = () => {
+        setIsModalOpen(false)
+        setFullName("")
+        setEmail("")
+        setPassword("")
+        setPhoneNumber("")
     }
 
     return (
@@ -41,7 +50,7 @@ const UserForm = () => {
                 title="Tạo người dùng mới"
                 open={isModalOpen}
                 onOk={() => handleSubmitBtn()}
-                onCancel={() => setIsModalOpen(false)}
+                onCancel={() => resetAndCloseModal()}
                 okText={"Tạo"}
                 cancelText={"Hủy"}
             >
