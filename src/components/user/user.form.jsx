@@ -1,5 +1,7 @@
-import { Button, Input } from "antd";
+import { Button, Input, notification } from "antd";
 import { useState } from "react";
+import { createUserAPI } from "../../services/api.service";
+import axios from "axios";
 
 const UserForm = () => {
     
@@ -8,15 +10,29 @@ const UserForm = () => {
     const [phoneNumber , setPhoneNumber] = useState("") ;
     const [password , setPassword] = useState("") ;
 
-    const handleClickBtn = () => {
-        console.log("Đã lưu" , {fullName , email , phoneNumber , password});
+    const handleClickBtn = async () => {
+        const res = await createUserAPI(fullName, email, password, phoneNumber) ;
+        // console.log("Đã lưu" , {fullName , email , phoneNumber , password});
+        console.log("Check data: ",  res.data) ;
+        if ( res.data){
+            notification.success({
+                message:"Create a new user" ,
+                description: "Tạo user thành công"
+            })
+        }
+        else {
+            notification.error({
+                message:"Create fail" ,
+                description: JSON.stringify(res.message)
+            })
+        }
     }
     return (
         <div className="user-form" style={{margin: "20px 0"}}>
             <div style={{ display: "flex", gap: "15px", flexDirection: "column"}}>
                 <div>
                     <span>Full name</span>
-                    <Input 
+                    <Input
                         value={fullName}
                         onChange={(event) => setFullName(event.target.value)}
                     />
