@@ -91,6 +91,7 @@ const UserTable = (props) => {
                 setDataUpdate={setDataUpdate}
             />
             <ViewUserDetail
+                loadUser={loadUser}
                 showDrawer={showDrawer}
                 setShowDrawer={setShowDrawer}
                 dataDetail={dataDetail}
