@@ -1,6 +1,6 @@
 import { Button, Form, Input, notification } from "antd";
 import { registerUserAPI } from "../services/api.service";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
 
@@ -33,12 +33,16 @@ const RegisterPage = () => {
     }
     return (
         <div className="user-form" style={{margin: "20px 0"}}>
+            <strong style={{ textAlign: "center", display: "block" }}>
+                Đăng kí tài khoản
+            </strong>
             <Form
                 form={form}
                 layout="vertical"
 
                 onFinish={onFinish}
                 // onFinishFailed={onFinishFailed}
+                style={{ maxWidth: "600px", margin: "0 auto" }}
             >
                 <div style={{ margin: "50px"}}>
                     <Form.Item
@@ -79,10 +83,14 @@ const RegisterPage = () => {
                     >
                         <Input />
                     </Form.Item>
-                    <Button 
+                    <Button
                         onClick={() => form.submit()}
                         type='primary'>Đăng kí
                     </Button>
+                    <div style={{ textAlign: "center", display: "block" }}>
+                        Đã có tài khoản?
+                        <Link to="/login"> Đăng nhập tại đây</Link>
+                    </div>
                 </div>
             </Form>
         </div>
