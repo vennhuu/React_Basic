@@ -29,6 +29,7 @@ const UserTable = (props) => {
                 description: JSON.stringify(res.message)
             })
         }
+        await loadUser() ;
     }
     const columns = [
         {
