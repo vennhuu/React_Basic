@@ -1,11 +1,34 @@
-import { Button, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, message, notification } from "antd";
+import { Link , useNavigate } from "react-router-dom";
+import { loginUserAPI } from "../services/api.service";
+import { useContext, useState } from 'react';
+import { AuthContext, AuthWrapper } from "../components/context/auth.context";
+
 
 const LoginPage = () => {
     const [form] = Form.useForm();
+    const [isLoading , setLoading] = useState(false) ;
+    const navigate = useNavigate();
+    const {setUser} = useContext(AuthContext) ;
+    
 
-    const onFinish = (value) => {
-        console.log("Check value" , value)
+    const onFinish = async (value) => {
+        setLoading(true)
+        const res = await loginUserAPI(value.email , value.password);
+
+        if ( res.data ) {
+            message.success("Đăng nhập thành công") ;
+            localStorage.setItem("access_token" , res.data.accessToken)
+            setUser(res.data.userLogin);
+            navigate("/")
+        }
+        else {
+            notification.error ({
+                message: "Lỗi đăng nhập" ,
+                description: JSON.stringify(res.message)
+            })
+        }
+        setLoading(false)
     }
 
     return (
@@ -37,6 +60,7 @@ const LoginPage = () => {
                     </Form.Item>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <Button
+                            loading={isLoading}
                             type="primary"
                             onClick={() => form.submit()}
                         >
