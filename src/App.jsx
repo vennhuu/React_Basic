@@ -8,6 +8,8 @@ import Footer from './components/layout/footer'
 import { Outlet } from 'react-router-dom'
 import { getAccountAPI } from './services/api.service'
 import { AuthContext } from './components/context/auth.context'
+import { Spin } from 'antd';
+
 // () => {}
 // component = html + css + js
 
@@ -28,28 +30,45 @@ import { AuthContext } from './components/context/auth.context'
 
 const App = () => {
 
-  const { setUser } = useContext(AuthContext) ;
+  const { setUser , isAppLoading , setIsLoading} = useContext(AuthContext) ;
 
   useEffect(() => {
     fetchUserInfo() ;
   }, [])
 
-  const fetchUserInfo = async() => {
+  const fetchUserInfo = async () => {
+  try {
     const res = await getAccountAPI()
-    if ( res.data.user ) {
-      //success
+
+    if (res?.data?.user) {
       setUser(res.data.user)
-      
     }
+
+  } catch (error) {
+    // nếu chưa login thì bỏ qua
+    console.log("User chưa đăng nhập")
   }
+
+  setIsLoading(false)
+}
   return (
     <>
-    {/* <ParentComponent>
-      Inside Parent Components
-    </ParentComponent> */}
-    <Header/>
-    <Outlet/>
-    <Footer/>
+      { isAppLoading === true ? 
+        <div style={{
+          position: "fixed" ,
+          top: "50%" ,
+          left: "50%" ,
+          transform: "translate(-50%, -50%)" ,
+        }}>
+          <Spin/>
+        </div>
+        :
+        <>
+          <Header/>
+          <Outlet/>
+          <Footer/>
+        </>
+      }
     </>
   )
 }

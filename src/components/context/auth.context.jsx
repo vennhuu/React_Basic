@@ -19,8 +19,10 @@ export const AuthWrapper = (props) => {
         phoneNumber: ""
     })
 
+    const [isAppLoading , setIsLoading] = useState(true)
+
     return (
-        <AuthContext.Provider value={{user , setUser}}>
+        <AuthContext.Provider value={{user , setUser , isAppLoading , setIsLoading}}>
             {props.children}
         </AuthContext.Provider>
     )
