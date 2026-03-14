@@ -13,7 +13,6 @@ const UpdateUserModal = (props) => {
     const [password , setPassword] = useState("") ;
 
     useEffect(() => {
-        console.log("Check dataUpdate" , dataUpdate)
         if(dataUpdate) {
             setId(dataUpdate.id)
             setFullName(dataUpdate.name)
@@ -24,7 +23,6 @@ const UpdateUserModal = (props) => {
 
     const handleSubmitBtn = async () => {
         const res = await updateUserAPI(id , fullName, email, phoneNumber) ;
-        console.log("Check data: ",  res.data) ;
         if ( res.data){
             notification.success({
                 message:"Cập nhật người dùng" ,

@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 // import './header.css'
-import { AppstoreOutlined, BookOutlined, HomeOutlined, MailOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { AliwangwangOutlined, AppstoreOutlined, BookOutlined, HomeOutlined, LoginOutlined, MailOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import {Menu} from 'antd';
 import { useContext, useState } from 'react';
 import { AuthContext, AuthWrapper } from '../context/auth.context';
@@ -10,10 +10,8 @@ const Header = () => {
 
     const {user} = useContext(AuthContext) ;
 
-    console.log("Check data"  , user);
 
     const onClick = e => {
-        console.log('click ', e);
         setCurrent(e.key);
     };
 
@@ -33,21 +31,23 @@ const Header = () => {
             key: 'books',
             icon: <BookOutlined />,
         },
-        {
-            label: "Cài đặt",
+        ...(!user.id ? [{
+            label: <Link to={"/login"}>Đăng nhập</Link>,
+            key: 'login',
+            icon: <LoginOutlined />,
+        }] : []),
+        ...(user.id ? [{
+            label: `Chào mừng ${user.name}`,
             key: 'setting',
-            icon: <SettingOutlined />,
+            icon: <AliwangwangOutlined />,
             children: [
                 {
-                    label: <Link to={"/login"}>Đăng nhập</Link>,
-                    key: 'login',
-                },
-                {
-                    label: "Đăng xuất",
+                    label: 'Đăng xuất',
                     key: 'logout',
+
                 }
             ]
-        },
+        }] : []),
     ];
     return (
         <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />

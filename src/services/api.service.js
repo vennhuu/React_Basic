@@ -23,7 +23,7 @@ const updateUserAPI = (id, fullName , email, phoneNumber) => {
     return axios.put(URL_BACKEND,data);
 }
 
-const fetchAllUserAPI = (current , pageSize) => {
+const fetchAllUserAPI = (current = 1, pageSize = 10) => {
     const URL_BACKEND = `/api/v1/users?current=${current}&pageSize=${pageSize}`
     return axios.get(URL_BACKEND);
 }
@@ -62,7 +62,7 @@ const updateUserAvatarAPI = (id, avatar) => {
 }
 
 const registerUserAPI = (fullName , email, password, phoneNumber) => {
-    const URL_BACKEND = "/api/v1/register   "
+    const URL_BACKEND = "/api/v1/register"
     const data = {
         name: fullName ,
         email: email ,
@@ -73,7 +73,7 @@ const registerUserAPI = (fullName , email, password, phoneNumber) => {
 }
 
 const loginUserAPI = ( email, password) => {
-    const URL_BACKEND = "/api/v1/login   "
+    const URL_BACKEND = "/api/v1/login"
     const data = {
         username: email ,
         password: password
@@ -82,6 +82,11 @@ const loginUserAPI = ( email, password) => {
     return axios.post(URL_BACKEND,data);
 }
 
+const getAccountAPI = () => {
+    const URL_BACKEND = "/api/v1/account"
+    return axios.get(URL_BACKEND);
+}
+
 export {
-    createUserAPI , updateUserAPI , fetchAllUserAPI , deleteUserAPI , uploadAvatarAPI , updateUserAvatarAPI , registerUserAPI , loginUserAPI
+    createUserAPI , updateUserAPI , fetchAllUserAPI , deleteUserAPI , uploadAvatarAPI , updateUserAvatarAPI , registerUserAPI , loginUserAPI , getAccountAPI
 }

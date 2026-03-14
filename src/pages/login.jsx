@@ -25,7 +25,7 @@ const LoginPage = () => {
         else {
             notification.error ({
                 message: "Lỗi đăng nhập" ,
-                description: JSON.stringify(res.message)
+                description: JSON.stringify(res.error)
             })
         }
         setLoading(false)
@@ -56,7 +56,9 @@ const LoginPage = () => {
                         name="password"
                         rules={[{ required: true, message: 'Mật khẩu không được để trống' }]}
                     >
-                        <Input.Password />
+                        <Input.Password onKeyDown={(event) => {
+                            if( event.key === 'Enter') form.submit()
+                        }}/>
                     </Form.Item>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <Button

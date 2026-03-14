@@ -12,7 +12,6 @@ const UserPage = () => {
     
         // empty array => run once
         useEffect(() => {
-            console.log(">>>run")
             loadUser();
         }, [current , pageSize]); // condition
 
